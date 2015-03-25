@@ -1,0 +1,15 @@
+import requests
+from lxml import html, etree
+import re
+
+if __name__ == '__main__':
+    session = requests.Session()
+    payload = {'DBNAME':'photo','SQL':"SELECT e_ID00000, e_metro, e_city, e_street1, e_fine, e_type, e_notes, e_map FROM e_photo WHERE e_type LIKE '%Red%' AND e_metro LIKE '%New York%'",'DatabaseID':'10186'}
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    #result = session.post('http://www.ecriteria.net/eCriteriaSearchCriteriaActionResult.asp?count=1046&LR=26&UR=1000', headers=headers,data=payload)
+    result = session.post('http://www.ecriteria.net/eCriteriaSearchCriteriaActionResult.asp?count=1046&LR=26&UR=50', headers=headers,data=payload)
+    import pdb; pdb.set_trace()
+    html_result = result.text.encode('utf-8')
+    tree = html.fromstring(html_result)
+    blah = tree.xpath("/html/body/table[2]/tbody/tr[1]/td[2]/form/table[2]/tbody/tr[2]/td[3]/font")
+    print(blah)
